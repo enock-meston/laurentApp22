@@ -77,4 +77,5 @@ class ClientProfileController extends GetxController {
 
     }
   }
+
 }

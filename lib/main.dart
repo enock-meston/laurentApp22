@@ -1,4 +1,6 @@
+
 import 'package:Laurent/controllers/client_profile_controller.dart';
+import 'package:Laurent/service/connectivity_service.dart';
 import 'package:Laurent/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +24,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Splash(),
+      home: Splash(),initialBinding: BindingsBuilder((){
+      Get.lazyPut<ConnectivityService>(() => ConnectivityService());
+    }),
     );
   }
 }
