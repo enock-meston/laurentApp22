@@ -17,7 +17,8 @@ class _HomeFragmentState extends State<HomeFragment> {
       Get.put(DashboardController());
   final RecentCourseController recentCourseController =
       Get.put(RecentCourseController());
-  final ConnectivityService connectivityService = Get.put(ConnectivityService());
+  final ConnectivityService connectivityService =
+      Get.put(ConnectivityService());
 
   @override
   void initState() {
@@ -37,7 +38,13 @@ class _HomeFragmentState extends State<HomeFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home/Ahabanza'),
+        title: const Text(
+          'Home/Ahabanza',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color.fromARGB(255, 253, 112, 11),
       ),
       body: Obx(() {
         if (!connectivityService.isConnected.value) {
@@ -79,16 +86,26 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                       const SizedBox(height: 10),
                       Obx(
-                        () => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            _buildStatCard('Amasomo',
-                                dashboardController.countIsomo.string),
-                            _buildStatCard('Ibizamini',
-                                dashboardController.countQuestionAnswer.string),
-                            _buildStatCard('Ifatabuguzi',
-                                dashboardController.countSubscriptions.string),
-                          ],
+                        () => SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _buildStatCard('Amasomo',
+                                    dashboardController.countIsomo.string),
+                                _buildStatCard(
+                                    'Ibizamini',
+                                    dashboardController
+                                        .countQuestionAnswer.string),
+                                _buildStatCard(
+                                    'Ifatabuguzi',
+                                    dashboardController
+                                        .countSubscriptions.string),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],

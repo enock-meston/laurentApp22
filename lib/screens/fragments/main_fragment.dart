@@ -2,6 +2,7 @@ import 'package:Laurent/controllers/client_profile_controller.dart';
 import 'package:Laurent/screens/fragments/home_fragment.dart';
 import 'package:Laurent/screens/fragments/learn_dash_fragment.dart';
 import 'package:Laurent/screens/fragments/profile_fragment.dart';
+import 'package:Laurent/screens/fragments/subscription_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,8 +19,8 @@ class _MainFragmentState extends State<MainFragment> {
     //screens
     const HomeFragment(),
     LearnDashFragment(),
+    SubscriptionFragment(),
     ProfileFragment(),
-    
   ];
 
   PageController _pageController = PageController();
@@ -62,6 +63,10 @@ class _MainFragmentState extends State<MainFragment> {
           const BottomNavigationBarItem(
             icon: Icon(Icons.book),
             label: "Learn",
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.subscriptions),
+            label: "Subscription",
           ),
          const BottomNavigationBarItem(
             icon: Icon(Icons.person),

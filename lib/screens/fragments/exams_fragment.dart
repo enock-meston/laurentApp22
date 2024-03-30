@@ -73,7 +73,8 @@ class _ExamsFragmentState extends State<ExamsFragment> {
         .toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Exam/Ikizamini"),
+        title: Text("Exam/Ikizamini",style: TextStyle(color: Colors.white,),),
+        backgroundColor:const Color.fromARGB(255, 253, 112, 11),
       ),
       body: questions.isNotEmpty
           ? Padding(

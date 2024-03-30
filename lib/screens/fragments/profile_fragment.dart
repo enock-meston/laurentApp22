@@ -144,10 +144,11 @@ class ProfileFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile/Umwirondoro'),
+        title: const Text('Profile/Umwirondoro',style: TextStyle(color: Colors.white,),),
+        backgroundColor:const Color.fromARGB(255, 253, 112, 11),
         actions: [
           IconButton(
-            icon: Icon(Icons.comment),
+            icon: Icon(Icons.comment,),
             tooltip: 'Ubutumwa',
             onPressed: () {
               // Show the comment dialog
