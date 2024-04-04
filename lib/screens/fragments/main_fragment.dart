@@ -58,19 +58,19 @@ class _MainFragmentState extends State<MainFragment> {
         items: [
          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: "Home",
+            label: "Ahabanza",
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.book),
-            label: "Learn",
+            label: "Kwiga",
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.subscriptions),
-            label: "Subscription",
+            label: "Ubuguzi",
           ),
          const BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: "Profile",
+            label: "Njyewe",
           ),
         ],
       ),

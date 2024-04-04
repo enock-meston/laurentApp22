@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:Laurent/API_Connection/api_connection.dart';
 import 'package:Laurent/controllers/subscription_controller.dart';
+import 'package:Laurent/screens/auth/login.dart';
 import 'package:Laurent/screens/fragments/home_fragment.dart';
 import 'package:Laurent/screens/fragments/main_fragment.dart';
 import 'package:Laurent/screens/fragments/sample_page.dart';
@@ -14,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
-class SubscriptionFragment extends StatelessWidget {
+class BeforeLoginSubscriptionFragment extends StatelessWidget {
   final SubscriptionController subscriptionController =
       Get.put(SubscriptionController());
   @override
@@ -81,19 +82,20 @@ class SubscriptionFragment extends StatelessWidget {
       );
       final Flutterwave flutterwave = Flutterwave(
           context: context,
-          publicKey: 'FLWPUBK_TEST-3160e427ae03c7ba414e9490839fc10c-X',
+          publicKey: 'FLWPUBK-0c8f309650b1bb8c2db8a703ab332b6d-X',
           currency: 'RWF',
-          redirectUrl: '${Get.to(MainFragment())}',
+          redirectUrl: 'https://nigoote.com',
           txRef: Uuid().v4(),
           amount: '$amount',
           customer: customer,
-          paymentOptions: "card, payattitude, barter, bank transfer, ussd",
+          paymentOptions: "card,mobilemoneyrwanda",
           customization: Customization(title: description),
-          isTestMode: true);
+          isTestMode: false);
       final ChargeResponse response = await flutterwave.charge();
       // this.showLoading(response.toString());
       print("enock_data:${response.toJson()}");
       print('Status: ${response.status}');
+
       print('Success: ${response.success}');
       print('Transaction ID: ${response.transactionId}');
       print('Tx Ref: ${response.txRef}');
@@ -103,12 +105,25 @@ class SubscriptionFragment extends StatelessWidget {
       var transactionId = response.transactionId;
       var txRef = response.txRef;
       //   savePayment in db
-      storeTransaction(myId, amount, status, transactionId, txRef,subscriptionId);
+      if(status=='error' || success== false){
+        Get.snackbar(
+          'Ubutumwa',
+          'Harimo Ikibazo Mu Kwishyura Mongere Mugerageze',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }else{
+        storeTransaction(myId, amount, status, transactionId, txRef,subscriptionId);
+      }
+
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Subscription Dashboard'),
+        title: Text('Ifatabuguzi',style: TextStyle(
+          color: Colors.white,
+        )),
+        backgroundColor: const Color.fromARGB(255, 253, 112, 11),
       ),
       body: Container(
         padding: EdgeInsets.all(16.0),

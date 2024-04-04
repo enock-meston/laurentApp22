@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:Laurent/API_Connection/api_connection.dart';
 import 'package:Laurent/controllers/login_controller.dart';
 import 'package:Laurent/screens/auth/signup.dart';
+import 'package:Laurent/screens/fragments/before_login_subscription_fragment.dart';
 import 'package:Laurent/screens/fragments/main_fragment.dart';
+import 'package:Laurent/screens/fragments/pay_flutterwave.dart';
+import 'package:Laurent/screens/fragments/subscription_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -50,7 +53,52 @@ class _LoginScreenState extends State<LoginScreen> {
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.red,
             colorText: Colors.white);
-      }else if (response.statusCode == 200) {
+      }else if(message1.contains('Iminsi yifarabuguzi rarashize')){
+        var data = jsonDecode(response.body);
+        // check message from data
+        var id =await sPreferences.setInt("id",data['client']['id']);
+        // var names = await sPreferences.setString('key', 'Enock');
+        var names =await sPreferences.setString("names",data['client']['names']);
+        var phone =await sPreferences.setString("phone_number",data['client']['phone_number']);
+        var email =await sPreferences.setString("email",data['client']['email']);
+        var status =await sPreferences.setString("status",data['client']['status']);
+        Get.snackbar("Ubutumwa", message1,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+        Get.offAll(BeforeLoginSubscriptionFragment());
+      }
+      else if(message1.contains('Banza Wishyure')){
+        var data = jsonDecode(response.body);
+        // check message from data
+        var id =await sPreferences.setInt("id",data['client']['id']);
+        // var names = await sPreferences.setString('key', 'Enock');
+        var names =await sPreferences.setString("names",data['client']['names']);
+        var phone =await sPreferences.setString("phone_number",data['client']['phone_number']);
+        var email =await sPreferences.setString("email",data['client']['email']);
+        var status =await sPreferences.setString("status",data['client']['status']);
+        Get.snackbar("Ubutumwa", message1,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+        Get.offAll(BeforeLoginSubscriptionFragment());
+      }else if(message1.contains('ifatabuguzi ryararangiye')){
+        var data = jsonDecode(response.body);
+        // check message from data
+        var id =await sPreferences.setInt("id",data['client']['id']);
+        // var names = await sPreferences.setString('key', 'Enock');
+        var names =await sPreferences.setString("names",data['client']['names']);
+        var phone =await sPreferences.setString("phone_number",data['client']['phone_number']);
+        var email =await sPreferences.setString("email",data['client']['email']);
+        var status =await sPreferences.setString("status",data['client']['status']);
+
+        Get.snackbar("Ubutumwa", message1,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+        Get.offAll(BeforeLoginSubscriptionFragment());
+      }
+      else if (response.statusCode == 200) {
 
         var data = jsonDecode(response.body);
         // check message from data
@@ -61,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
         var email =await sPreferences.setString("email",data['client']['email']);
         var status =await sPreferences.setString("status",data['client']['status']);
         // String n = data['client']['names'];
+        // check if your subscription
         String? stringValue = sPreferences.getString('names');
         print('Retrieved String: $stringValue');
           Get.snackbar("Ubutumwa", "Kwijira byagenze neza!",
@@ -69,6 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
               colorText: Colors.white);
         Get.back();
         Get.offAll(() => MainFragment());
+
+        //end check if your subscription
       }
       Future.delayed(Duration(seconds: 3), () {
         // After registration completes
@@ -86,8 +137,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login/Kwinjira'),
-        backgroundColor: const Color.fromARGB(255, 253, 112, 11),
+        // title: const Text('Login/Kwinjira'),
+        // backgroundColor: const Color.fromARGB(255, 253, 112, 11),
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -158,12 +209,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 20.0,
                 ),
                 //new account link
-                ElevatedButton(
+                TextButton(
                   onPressed: () {
                     Get.to(SignUpScreen());
                   },
-                  child: const Text('new Account/ kora konti'),
-                )
+                  child: const Text(
+                    'new Account/ kora konti',
+                    style: TextStyle(fontSize: 16.0,color: Colors.blue,),
+                  ),
+                ),
+                const SizedBox(height: 8.0,),
+                TextButton(
+                  onPressed: () {
+                    Get.to(SignUpScreen());
+                  },
+                  child: const Text(
+                    'Forget Password?\n Wibagiwe Ijambo Banga',
+                    style: TextStyle(fontSize: 16.0,color: Colors.blue,),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+                const SizedBox(height: 8.0,),
+                // TextButton(
+                //   onPressed: () {
+                //     Get.to(PayFlutterWave());
+                //   },
+                //   child: const Text(
+                //     'ishyura',
+                //     style: TextStyle(fontSize: 16.0,color: Colors.blue,),
+                //     textAlign: TextAlign.center,
+                //   ),
+                // ),
               ],
             ),
           ),

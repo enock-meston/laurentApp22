@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ExamsFragment extends StatefulWidget {
+  String? questionEnd;
+
+  ExamsFragment(this.questionEnd);
+
   @override
   State<ExamsFragment> createState() => _ExamsFragmentState();
 }
@@ -14,8 +18,7 @@ class ExamsFragment extends StatefulWidget {
 class _ExamsFragmentState extends State<ExamsFragment> {
   int _currentIndex = 0;
   List<Question> questions = [];
-  QuestionController controller = Get.put(QuestionController());
-
+  late QuestionController controller;
   Map<int, dynamic> userAnswers = {}; // Store user's selected answers
   int? currentIndex;
   int _score = 0;
@@ -25,9 +28,11 @@ class _ExamsFragmentState extends State<ExamsFragment> {
   @override
   void initState() {
     super.initState();
+    controller = Get.put(QuestionController(questionEnd: widget.questionEnd));
     _startTimer();
     questions = controller.questionDataList!.value;
     print("Question : $questions");
+    print("widget.questionEnd :${widget.questionEnd}");
   }
 
   @override
@@ -71,10 +76,18 @@ class _ExamsFragmentState extends State<ExamsFragment> {
         .map(
             (option) => option.replaceAll('"', '')) // Remove surrounding quotes
         .toList();
+    var idd1 = widget.questionEnd;
+    print("id2: $idd1");
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Exam/Ikizamini",style: TextStyle(color: Colors.white,),),
-        backgroundColor:const Color.fromARGB(255, 253, 112, 11),
+        title: const Text(
+          "Exam/Ikizamini",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color.fromARGB(255, 253, 112, 11),
       ),
       body: questions.isNotEmpty
           ? Padding(
@@ -126,22 +139,22 @@ class _ExamsFragmentState extends State<ExamsFragment> {
                       ElevatedButton(
                         onPressed:
                             _currentIndex > 0 ? _goToPreviousQuestion : null,
-                        child: Text('Back'),
+                        child: const Text('Back'),
                       ),
                       ElevatedButton(
                         onPressed: _currentIndex < questions.length - 1
                             ? _goToNextQuestion
                             : _showResultDialog,
                         child: _currentIndex < questions.length - 1
-                            ? Text('Next')
-                            : Text('Finish'),
+                            ? const Text('Next')
+                            : const Text('Finish'),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     'Time Remaining: ${_duration ~/ 60}:${(_duration % 60).toString().padLeft(2, '0')}',
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ],
               ),

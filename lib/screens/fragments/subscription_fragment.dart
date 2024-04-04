@@ -64,6 +64,8 @@ class SubscriptionFragment extends StatelessWidget {
       }
     }
 
+
+
     handlePaymentInitialization(amount,description,subscriptionId) async {
       SharedPreferences shPre = await SharedPreferences.getInstance();
       var myId = await shPre.getInt('id');
@@ -79,15 +81,15 @@ class SubscriptionFragment extends StatelessWidget {
       );
       final Flutterwave flutterwave = Flutterwave(
           context: context,
-          publicKey: 'FLWPUBK_TEST-3160e427ae03c7ba414e9490839fc10c-X',
+          publicKey: 'FLWPUBK-0c8f309650b1bb8c2db8a703ab332b6d-X',
           currency: 'RWF',
-          redirectUrl: '${Get.to(MainFragment())}',
+          redirectUrl: 'https://nigoote.com',
           txRef: Uuid().v4(),
           amount: '$amount',
           customer: customer,
-          paymentOptions: "card, payattitude, barter, bank transfer, ussd",
+          paymentOptions: "card,mobilemoneyrwanda",
           customization: Customization(title: description),
-          isTestMode: true);
+          isTestMode: false);
       final ChargeResponse response = await flutterwave.charge();
       // this.showLoading(response.toString());
       print("enock_data:${response.toJson()}");
@@ -106,7 +108,10 @@ class SubscriptionFragment extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Subscription Dashboard'),
+        title: Text('Ifatabuguzu',style: TextStyle(
+          color: Colors.white,
+        )),
+          backgroundColor: const Color.fromARGB(255, 253, 112, 11),
       ),
       body: Container(
         padding: EdgeInsets.all(16.0),
@@ -126,11 +131,60 @@ class SubscriptionFragment extends StatelessWidget {
                     subtitle: Text(subscription.details),
                     trailing: Text(subscription.price),
                     onTap: () {
+                      var subId = subscription.id;
                       var price = subscription.price;
                       var title = subscription.title;
                       var subscriptionId = subscription.id;
-                      handlePaymentInitialization(price,title,subscriptionId);
 
+
+                      //   check subscription method
+                      void checkSubcription(subId) async {
+                        SharedPreferences shPre = await SharedPreferences.getInstance();
+                        var clientId = await shPre.getInt('id');
+                        var url = API.checkSubscription;
+                        // print("chechsubscription of $subId on $url link");
+                        try {
+                          final response = await http.post(
+                            Uri.parse(url),
+                            body: jsonEncode({
+                              'subscriptionId': subId,
+                              'clientId': clientId,
+                            }),
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                          );
+                          print('data1: ${response.body}');
+                          var data = json.decode(response.body);
+                          var message = data['message'];
+                          if (response.statusCode == 200) {
+                            print(message);
+
+                            Get.snackbar(
+                                'Ubutumwa',
+                                '$message \ Ifarabuguzi Ubu riracyari Gukoreshwa',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white
+                            );
+
+                          } else if (response.statusCode == 404) {
+                            Get.snackbar(
+                                'Ubutumwa',
+                                'Ubu Gukomeza Kwishyura Birakunda',
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.green,
+                                colorText: Colors.white
+                            );
+                            handlePaymentInitialization(price,title,subscriptionId);
+                          } else {
+                            print('Failed to check subscription status');
+                          }
+                        } catch (error) {
+                          print('error from catch $error');
+                        }
+                      }
+                      checkSubcription(subId);
                     },
                   ),
                 );

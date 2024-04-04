@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 
 class QuestionController extends GetxController {
   RxList<Question>? questionDataList = RxList();
+  String? questionEnd;
+
+  QuestionController({this.questionEnd});
 
   @override
   Future<void> onInit() async {
@@ -16,9 +19,12 @@ class QuestionController extends GetxController {
     print("Qus : $questionDataList");
   }
 
-  static Future<List<Question>?> fetchQuestionsList() async {
-    final url = Uri.parse(API.question);
+  //i removed static keyword here
+   Future<List<Question>?> fetchQuestionsList() async {
 
+     final url = Uri.parse(API.question+'/$questionEnd');
+     print("URL1 : $url");
+     print("questionEnd : ${this.questionEnd}");
     try {
       final response = await http.get(url);
 

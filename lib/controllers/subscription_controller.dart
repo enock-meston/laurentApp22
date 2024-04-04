@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:Laurent/API_Connection/api_connection.dart';
 import 'package:Laurent/models/subscription_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,14 +34,11 @@ class SubscriptionController extends GetxController {
       }
     } catch (e) {
       print('Error: $e');
-    }finally {
-      isLoading(false); // Ensure isLoading is set to false even in case of error
+    } finally {
+      isLoading(
+          false); // Ensure isLoading is set to false even in case of error
     }
   }
-  
-//   check subscription method 
-void checkSubcription(subId){
-    var url = API.checkSubscription;
-    
-}
+
+
 }

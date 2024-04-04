@@ -12,7 +12,10 @@ class LearnDashFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Learn/Kwiga'),
+        title: const Text('Learn/Kwiga',style: TextStyle(
+          color: Colors.white,
+        )),
+        backgroundColor: const Color.fromARGB(255, 253, 112, 11),
       ),
       body: Obx(() {
         if (courseController.courses.isEmpty) {
