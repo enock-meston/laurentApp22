@@ -7,9 +7,13 @@ import 'package:http/http.dart' as http;
 
 class QuestionController extends GetxController {
   RxList<Question>? questionDataList = RxList();
-  String? questionEnd;
+  // String? questionEnd;
+  final RxString questionEnd = "".obs;
 
-  QuestionController({this.questionEnd});
+  // QuestionController({this.questionEnd});
+  QuestionController({required String questionEnd}) {
+    this.questionEnd.value = questionEnd;
+    }
 
   @override
   Future<void> onInit() async {

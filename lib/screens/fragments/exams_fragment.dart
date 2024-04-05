@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ExamsFragment extends StatefulWidget {
-  String? questionEnd;
+  String questionEnd;
 
-  ExamsFragment(this.questionEnd);
+  ExamsFragment({super.key, required this.questionEnd});
 
   @override
   State<ExamsFragment> createState() => _ExamsFragmentState();
@@ -18,7 +18,10 @@ class ExamsFragment extends StatefulWidget {
 class _ExamsFragmentState extends State<ExamsFragment> {
   int _currentIndex = 0;
   List<Question> questions = [];
+
   late QuestionController controller;
+  //QuestionController controller = Get.put(QuestionController(questionEnd: ExamsFragment.getQuestionEnd.toString()));
+
   Map<int, dynamic> userAnswers = {}; // Store user's selected answers
   int? currentIndex;
   int _score = 0;
@@ -28,11 +31,17 @@ class _ExamsFragmentState extends State<ExamsFragment> {
   @override
   void initState() {
     super.initState();
-    controller = Get.put(QuestionController(questionEnd: widget.questionEnd));
     _startTimer();
-    questions = controller.questionDataList!.value;
-    print("Question : $questions");
-    print("widget.questionEnd :${widget.questionEnd}");
+    print("test: ${widget.questionEnd.toString()}");
+    var currentId = widget.questionEnd;
+    Future.delayed(Duration(milliseconds: 100), () {
+      controller =
+          Get.put(QuestionController(questionEnd: currentId.toString()));
+      questions = controller.questionDataList!.value;
+      print("Question : $questions");
+      print("widget.questionEnd :${widget.questionEnd}");
+      setState(() {});
+    });
   }
 
   @override
@@ -101,7 +110,7 @@ class _ExamsFragmentState extends State<ExamsFragment> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              questions[_currentIndex].question ?? '',
+                              '${questions[_currentIndex].question ?? ''} /amanota ${questions[_currentIndex].marks ?? ''}',
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
@@ -153,7 +162,7 @@ class _ExamsFragmentState extends State<ExamsFragment> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Time Remaining: ${_duration ~/ 60}:${(_duration % 60).toString().padLeft(2, '0')}',
+                    'Igihe Gisigaye: ${_duration ~/ 60}:${(_duration % 60).toString().padLeft(2, '0')}',
                     style: const TextStyle(fontSize: 18),
                   ),
                 ],
@@ -268,15 +277,15 @@ class _ExamsFragmentState extends State<ExamsFragment> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Exam Results'),
+          title: const Text('Ibisubizo by\'ikizamini'),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Text(
-                      'Total Questions: ',
+                    const Text(
+                      'Ibibazo Byose: ',
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
                       ),
@@ -284,23 +293,58 @@ class _ExamsFragmentState extends State<ExamsFragment> {
                     Text('$totalQuestions'),
                   ],
                 ),
-                Text('Correct Answers: $correctAnswers'),
-                Text('Your Score: $_score'),
+                Text('Ibisubizo Byukuri: $correctAnswers'),
+                Text('Amanota yawe: $_score'),
                 SizedBox(height: 20),
                 Visibility(
                   visible: resultDetails.isNotEmpty,
-                  child: Text(
-                    'Incorrect Answers:',
+                  child: const Text(
+                    'Ibisubizo Bitari byo:',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),
                 ...resultDetails.map((result) => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Question: ${result['question']}'),
-                        Text('Correct Answer: ${result['correctAnswer']}'),
-                        Text('Your Answer: ${result['userAnswer']}'),
-                        Divider(
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              const Text(
+                                'Ikibazo:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              Text('${result['question']}'),
+                            ],
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(children: [
+                            const Text(
+                              'Igisubizo Cy\'ukuri:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            Text('${result['correctAnswer']}'),
+                          ]),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(children: [
+                            const Text(
+                              'Igisubizo cyawe:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            Text(' ${result['userAnswer']}'),
+                          ]),
+                        ),
+                        const Divider(
                           height: 20,
                           color: Colors.black,
                           thickness: 0.5,
@@ -312,7 +356,7 @@ class _ExamsFragmentState extends State<ExamsFragment> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Close'),
+              child: Text('Funga'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

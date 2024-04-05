@@ -96,7 +96,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                 _buildStatCard('Amasomo',
                                     dashboardController.countIsomo.string),
                                 _buildStatCard(
-                                    'Ibizamini',
+                                    'Ibibazo',
                                     dashboardController
                                         .countQuestionAnswer.string),
                                 _buildStatCard(
@@ -163,7 +163,7 @@ class _HomeFragmentState extends State<HomeFragment> {
 
   Widget _buildStatCard(String title, String value) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           title,
