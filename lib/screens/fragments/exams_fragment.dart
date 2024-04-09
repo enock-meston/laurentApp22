@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:Laurent/controllers/question_controller.dart';
 import 'package:Laurent/models/question_data.dart';
+import 'package:Laurent/screens/fragments/learn_dash_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,7 +27,7 @@ class _ExamsFragmentState extends State<ExamsFragment> {
   int? currentIndex;
   int _score = 0;
   late Timer _timer;
-  int _duration = 60; // Duration in minutes
+  int _duration = 1200; // Duration in minutes
 
   @override
   void initState() {
@@ -186,9 +187,9 @@ class _ExamsFragmentState extends State<ExamsFragment> {
       print("_C : $_currentIndex");
       print("User : $userAnswers");
 
-      _timer.cancel();
-      _duration = 60;
-      _startTimer();
+      // _timer.cancel();
+      // _duration = 60;
+      // _startTimer();
 
       // currentIndex = userAnswers.containsKey(_currentIndex)
       //     ? userAnswers.keys.first
@@ -215,14 +216,14 @@ class _ExamsFragmentState extends State<ExamsFragment> {
 
   void _goToNextQuestion() {
     setState(() {
-      _timer.cancel();
-      _duration = 60;
+      // _timer.cancel();
+      // _duration = 60;
 
       if (_currentIndex < questions.length - 1) {
         print("current index : ${_currentIndex}");
         print("length  : ${questions.length}");
 
-        _startTimer();
+        // _startTimer();
       } else {
         _timer.cancel(); // Stop the timer
         _showResultDialog();
@@ -297,7 +298,10 @@ class _ExamsFragmentState extends State<ExamsFragment> {
                   ],
                 ),
                 Text('Ibisubizo Byukuri: $correctAnswers'),
-                Text('Amanota yawe: $_score'),
+                Text('Amanota yawe: $_score / $totalQuestions',
+                style: TextStyle(
+                              color: Colors.green,
+                            )),
                 SizedBox(height: 20),
                 Visibility(
                   visible: resultDetails.isNotEmpty,
@@ -383,7 +387,8 @@ class _ExamsFragmentState extends State<ExamsFragment> {
             TextButton(
               child: Text('Funga'),
               onPressed: () {
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
+                Get.off(LearnDashFragment());
               },
             ),
           ],
