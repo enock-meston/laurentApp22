@@ -148,7 +148,7 @@ class _ExamsFragmentState extends State<ExamsFragment> {
                       ElevatedButton(
                         onPressed:
                             _currentIndex > 0 ? _goToPreviousQuestion : null,
-                        child: const Text('Back'),
+                        child: const Text('Previous'),
                       ),
                       ElevatedButton(
                         onPressed: _currentIndex < questions.length - 1
@@ -156,7 +156,7 @@ class _ExamsFragmentState extends State<ExamsFragment> {
                             : _showResultDialog,
                         child: _currentIndex < questions.length - 1
                             ? const Text('Next')
-                            : const Text('Finish'),
+                            : const Text('Soza Ikizami'),
                       ),
                     ],
                   ),
@@ -265,6 +265,7 @@ class _ExamsFragmentState extends State<ExamsFragment> {
           resultDetails.add({
             'question': questions[i].question,
             'correctAnswer': questions[i].answer,
+            'fileUpload': questions[i].fileUpload,
             'userAnswer': userAnswer,
           });
         }
@@ -277,10 +278,12 @@ class _ExamsFragmentState extends State<ExamsFragment> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          scrollable: true,
           title: const Text('Ibisubizo by\'ikizamini'),
           content: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Row(
                   children: [
@@ -304,46 +307,68 @@ class _ExamsFragmentState extends State<ExamsFragment> {
                   ),
                 ),
                 ...resultDetails.map((result) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              const Text(
-                                'Ikibazo:',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                ),
+                        Column(
+                          children: [
+                            const Text(
+                              'Ikibazo:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
                               ),
-                              Text('${result['question']}'),
-                            ],
+                            ),
+                            Text('${result['question']}'),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              'Ifoto:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            if (result['fileUpload'] != null)
+                              Image.network(
+                                result['fileUpload'],
+                                width: 200,
+                                height: 200,
+                              ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+                          children: [
+                          const Text(
+                            'Igisubizo Cy\'ukuri:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(children: [
-                            const Text(
-                              'Igisubizo Cy\'ukuri:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
+                          Text(
+                            '${result['correctAnswer'].replaceAll('[', '').replaceAll(']', '').replaceAll('"', '')}',
+                            style: TextStyle(
+                              color: Colors.green,
                             ),
-                            Text('${result['correctAnswer']}'),
-                          ]),
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(children: [
-                            const Text(
-                              'Igisubizo cyawe:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
+                          ),
+                        ]),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+                          children: [
+                          const Text(
+                            'Igisubizo cyawe:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
                             ),
-                            Text(' ${result['userAnswer']}'),
-                          ]),
-                        ),
+                          ),
+                          Text(' ${result['userAnswer']}',
+                          style: TextStyle(
+                              color: Colors.red,
+                            ),),
+                        ]),
                         const Divider(
                           height: 20,
                           color: Colors.black,
