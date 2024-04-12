@@ -81,9 +81,9 @@ class SubscriptionFragment extends StatelessWidget {
       );
       final Flutterwave flutterwave = Flutterwave(
           context: context,
-          publicKey: 'FLWPUBK-0c8f309650b1bb8c2db8a703ab332b6d-X',
+          publicKey: 'FLWPUBK-babf136234a0a8343e9d31b1591ebc30-X',
           currency: 'RWF',
-          redirectUrl: 'https://nigoote.com',
+          redirectUrl: 'https://warize.com',
           txRef: Uuid().v4(),
           amount: '$amount',
           customer: customer,

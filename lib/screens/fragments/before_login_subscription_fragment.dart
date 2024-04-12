@@ -82,16 +82,15 @@ class BeforeLoginSubscriptionFragment extends StatelessWidget {
       );
       final Flutterwave flutterwave = Flutterwave(
           context: context,
-          // publicKey: 'FLWPUBK-0c8f309650b1bb8c2db8a703ab332b6d-X',
-          publicKey: 'FLWPUBK_TEST-3160e427ae03c7ba414e9490839fc10c-X',
+          publicKey: 'FLWPUBK-babf136234a0a8343e9d31b1591ebc30-X',
           currency: 'RWF',
-          redirectUrl: 'https://nigoote.com',
+          redirectUrl: 'https://warize.com',
           txRef: Uuid().v4(),
           amount: '$amount',
           customer: customer,
           paymentOptions: "card,mobilemoneyrwanda",
           customization: Customization(title: description),
-          isTestMode: true);
+          isTestMode: false);
       final ChargeResponse response = await flutterwave.charge();
       // this.showLoading(response.toString());
       print("enock_data:${response.toJson()}");

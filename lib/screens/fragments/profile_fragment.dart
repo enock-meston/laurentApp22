@@ -226,7 +226,7 @@ class ProfileFragment extends StatelessWidget {
                         style: TextStyle(color: Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: const Color.fromARGB(255, 253, 112, 11),
+                        backgroundColor: const Color.fromARGB(255, 253, 112, 11),
                         textStyle: const TextStyle(fontSize: 16),
                         padding: const EdgeInsets.symmetric(
                           vertical: 12,
@@ -245,7 +245,7 @@ class ProfileFragment extends StatelessWidget {
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: const Color.fromARGB(255, 253, 112, 11),
+                        backgroundColor: const Color.fromARGB(255, 253, 112, 11),
                         textStyle: const TextStyle(fontSize: 16),
                         padding: const EdgeInsets.symmetric(
                           vertical: 12,

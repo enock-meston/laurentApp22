@@ -52,7 +52,7 @@ class Question {
 
   Question.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    isomoId = json['isomoId'];
+    isomoId = int.tryParse(json['isomoId']);
     question = json['question'];
     options = json['options'];
     answer = json['answer'];

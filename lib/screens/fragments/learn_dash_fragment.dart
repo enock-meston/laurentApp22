@@ -39,6 +39,14 @@ class LearnDashFragment extends StatelessWidget {
           );
         }
       }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // clientProfileController.fetchClientData();
+          courseController.fetchCourseData();
+        },
+        backgroundColor: const Color.fromARGB(255, 253, 112, 11),
+        child: const Icon(Icons.refresh, color: Colors.white),
+      ),
     );
   }
 }
