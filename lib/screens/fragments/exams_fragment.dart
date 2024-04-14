@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:Laurent/controllers/question_controller.dart';
 import 'package:Laurent/models/question_data.dart';
 import 'package:Laurent/screens/fragments/learn_dash_fragment.dart';
+import 'package:Laurent/screens/fragments/main_fragment.dart';
+import 'package:Laurent/screens/fragments/result_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ExamsFragment extends StatefulWidget {
+  class ExamsFragment extends StatefulWidget {
   String questionEnd;
 
   ExamsFragment({super.key, required this.questionEnd});
@@ -255,10 +257,7 @@ class _ExamsFragmentState extends State<ExamsFragment> {
     for (int i = 0; i < totalQuestions; i++) {
       String? userAnswer = userAnswers[i];
       String correctAnswer =
-          questions[i].answer!.substring(2, questions[i].answer!.length - 2);
-      print("My : $userAnswer");
-      print("Correct : $correctAnswer");
-      // int correctIndex = questions![i]['correctIndex'];
+      questions[i].answer!.substring(2, questions[i].answer!.length - 2);
       if (userAnswer != null) {
         if (correctAnswer.contains(userAnswer)) {
           correctAnswers++;
@@ -273,127 +272,164 @@ class _ExamsFragmentState extends State<ExamsFragment> {
       }
     }
 
-    _score = correctAnswers;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          scrollable: true,
-          title: const Text('Ibisubizo by\'ikizamini'),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Ibibazo Byose: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    Text('$totalQuestions'),
-                  ],
-                ),
-                Text('Ibisubizo Byukuri: $correctAnswers'),
-                Text('Amanota yawe: $_score / $totalQuestions',
-                style: TextStyle(
-                              color: Colors.green,
-                            )),
-                SizedBox(height: 20),
-                Visibility(
-                  visible: resultDetails.isNotEmpty,
-                  child: const Text(
-                    'Ibisubizo Bitari byo:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                ),
-                ...resultDetails.map((result) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          children: [
-                            const Text(
-                              'Ikibazo:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            Text('${result['question']}'),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            const Text(
-                              'Ifoto:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            if (result['fileUpload'] != null)
-                              Image.network(
-                                result['fileUpload'],
-                                width: 200,
-                                height: 200,
-                              ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-                          children: [
-                          const Text(
-                            'Igisubizo Cy\'ukuri:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          Text(
-                            '${result['correctAnswer'].replaceAll('[', '').replaceAll(']', '').replaceAll('"', '')}',
-                            style: TextStyle(
-                              color: Colors.green,
-                            ),
-                          ),
-                        ]),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-                          children: [
-                          const Text(
-                            'Igisubizo cyawe:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          Text(' ${result['userAnswer']}',
-                          style: TextStyle(
-                              color: Colors.red,
-                            ),),
-                        ]),
-                        const Divider(
-                          height: 20,
-                          color: Colors.black,
-                          thickness: 0.5,
-                        )
-                      ],
-                    )),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Funga'),
-              onPressed: () {
-                // Navigator.of(context).pop();
-                Get.off(LearnDashFragment());
-              },
-            ),
-          ],
-        );
+    Get.offAll(() => ResultFragment(
+      totalQuestions: totalQuestions,
+      correctAnswers: correctAnswers,
+      resultDetails: resultDetails,
+      onClose: () {
+        Get.offAll(() => MainFragment());
       },
-    );
+    ));
+  // void _showResultDialog() {
+  //   int totalQuestions = questions.length;
+  //   int correctAnswers = 0;
+  //   List<Map<String, dynamic>> resultDetails = [];
+  //
+  //   for (int i = 0; i < totalQuestions; i++) {
+  //     String? userAnswer = userAnswers[i];
+  //     String correctAnswer =
+  //         questions[i].answer!.substring(2, questions[i].answer!.length - 2);
+  //     print("My : $userAnswer");
+  //     print("Correct : $correctAnswer");
+  //     // int correctIndex = questions![i]['correctIndex'];
+  //     if (userAnswer != null) {
+  //       if (correctAnswer.contains(userAnswer)) {
+  //         correctAnswers++;
+  //       } else {
+  //         resultDetails.add({
+  //           'question': questions[i].question,
+  //           'correctAnswer': questions[i].answer,
+  //           'fileUpload': questions[i].fileUpload,
+  //           'userAnswer': userAnswer,
+  //         });
+  //       }
+  //     }
+  //   }
+  //
+  //   _score = correctAnswers;
+  //
+  //
+  //
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         scrollable: true,
+  //         title: const Text('Ibisubizo by\'ikizamini'),
+  //         content: SingleChildScrollView(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             mainAxisSize: MainAxisSize.max,
+  //             children: [
+  //               Row(
+  //                 children: [
+  //                   const Text(
+  //                     'Ibibazo Byose: ',
+  //                     style: TextStyle(
+  //                       fontWeight: FontWeight.w800,
+  //                     ),
+  //                   ),
+  //                   Text('$totalQuestions'),
+  //                 ],
+  //               ),
+  //               Text('Ibisubizo Byukuri: $correctAnswers'),
+  //               Text('Amanota yawe: $_score / $totalQuestions',
+  //               style: TextStyle(
+  //                             color: Colors.green,
+  //                           )),
+  //               SizedBox(height: 20),
+  //               Visibility(
+  //                 visible: resultDetails.isNotEmpty,
+  //                 child: const Text(
+  //                   'Ibisubizo Bitari byo:',
+  //                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+  //                 ),
+  //               ),
+  //               ...resultDetails.map((result) => Column(
+  //                     crossAxisAlignment: CrossAxisAlignment.center,
+  //                     mainAxisSize: MainAxisSize.max,
+  //                     children: [
+  //                       Column(
+  //                         children: [
+  //                           const Text(
+  //                             'Ikibazo:',
+  //                             style: TextStyle(
+  //                               fontWeight: FontWeight.w800,
+  //                             ),
+  //                           ),
+  //                           Text('${result['question']}'),
+  //                         ],
+  //                       ),
+  //                       Column(
+  //                         children: [
+  //                           const Text(
+  //                             'Ifoto:',
+  //                             style: TextStyle(
+  //                               fontWeight: FontWeight.w800,
+  //                             ),
+  //                           ),
+  //                           if (result['fileUpload'] != null)
+  //                             Image.network(
+  //                               result['fileUpload'],
+  //                               width: 200,
+  //                               height: 200,
+  //                             ),
+  //                         ],
+  //                       ),
+  //                       Column(
+  //                         crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.max,
+  //                         children: [
+  //                         const Text(
+  //                           'Igisubizo Cy\'ukuri:',
+  //                           style: TextStyle(
+  //                             fontWeight: FontWeight.w800,
+  //                           ),
+  //                         ),
+  //                         Text(
+  //                           '${result['correctAnswer'].replaceAll('[', '').replaceAll(']', '').replaceAll('"', '')}',
+  //                           style: TextStyle(
+  //                             color: Colors.green,
+  //                           ),
+  //                         ),
+  //                       ]),
+  //                       Column(
+  //                         crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.max,
+  //                         children: [
+  //                         const Text(
+  //                           'Igisubizo cyawe:',
+  //                           style: TextStyle(
+  //                             fontWeight: FontWeight.w800,
+  //                           ),
+  //                         ),
+  //                         Text(' ${result['userAnswer']}',
+  //                         style: TextStyle(
+  //                             color: Colors.red,
+  //                           ),),
+  //                       ]),
+  //                       const Divider(
+  //                         height: 20,
+  //                         color: Colors.black,
+  //                         thickness: 0.5,
+  //                       )
+  //                     ],
+  //                   )),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text('Funga'),
+  //             onPressed: () {
+  //               // Navigator.of(context).pop();
+  //               Get.offAll(() => MainFragment());
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+
   }
 }
